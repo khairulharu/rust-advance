@@ -217,6 +217,7 @@ impl PartialOrd for  Apple {
     }
 }
 
+use std::collections::{LinkedList, VecDeque};
 use std::ops::Add;
 
 impl Add for Apple {
@@ -382,4 +383,67 @@ fn test_counter() {
     counter.increment();
 
     println!("Counter: {}", counter.counter);
+}
+
+#[test]
+fn test_vector() {
+
+    let array_value  = ["khairul", "asawad", "tembak", "tembak"];
+
+    for value in array_value {
+        println!("{}", value);
+    }
+
+    println!("{:?}", array_value);
+
+    let mut names: Vec<String> = Vec::<String>::new();
+
+    names.push(String::from("Khairul Aswad"));
+
+    names.push(String::from("Aswad Khairul"));
+
+    names.pop();
+
+    for name in &names {
+        println!("{}", name);
+    }
+    
+    println!("{:?}", names);
+    println!("{}", names[0]);
+}
+
+#[test]
+fn test_vector_deque() {
+    let mut names: VecDeque<String> = VecDeque::<String>::new();
+
+    names.push_front(String::from("middle_value"));
+
+    names.push_back(String::from("back_value"));
+
+    names.push_front(String::from("front_value"));
+
+    for value in &names {
+        println!("{}", value);
+    }
+
+    println!("{:?}", names);
+
+    println!("{}", names[2]);
+}
+
+#[test]
+fn test_linked_list() {
+    let mut names: LinkedList<String> = LinkedList::<String>::new();
+
+    names.push_front(String::from("middle_value"));
+
+    names.push_back(String::from("back_value"));
+
+    names.push_front(String::from("front_value"));
+
+    for value in &names {
+        println!("{}", value);
+    }
+
+    println!("{:?}", names);
 }

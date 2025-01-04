@@ -217,7 +217,7 @@ impl PartialOrd for  Apple {
     }
 }
 
-use std::collections::{LinkedList, VecDeque};
+use std::collections::{BTreeMap, HashMap, LinkedList, VecDeque};
 use std::ops::Add;
 
 impl Add for Apple {
@@ -368,6 +368,10 @@ struct Counter {
 }
 
 impl Counter {
+    fn new(counter: i32) -> Counter {
+        Counter{ counter }
+    }
+
     fn increment(&mut self) {
         self.counter += 1;
         println!("Increment")
@@ -376,7 +380,7 @@ impl Counter {
 
 #[test]
 fn test_counter() {
-    let mut counter = Counter{ counter: 0 };
+    let mut counter = Counter::new(1);
 
     counter.increment();
     counter.increment();
@@ -388,6 +392,7 @@ fn test_counter() {
 #[test]
 fn test_vector() {
 
+    //array
     let array_value  = ["khairul", "asawad", "tembak", "tembak"];
 
     for value in array_value {
@@ -396,6 +401,7 @@ fn test_vector() {
 
     println!("{:?}", array_value);
 
+    //vector
     let mut names: Vec<String> = Vec::<String>::new();
 
     names.push(String::from("Khairul Aswad"));
@@ -410,6 +416,7 @@ fn test_vector() {
     
     println!("{:?}", names);
     println!("{}", names[0]);
+    println!("{:?}", names[0])
 }
 
 #[test]
@@ -427,8 +434,6 @@ fn test_vector_deque() {
     }
 
     println!("{:?}", names);
-
-    println!("{}", names[2]);
 }
 
 #[test]
@@ -446,4 +451,57 @@ fn test_linked_list() {
     }
 
     println!("{:?}", names);
+}
+
+#[test]
+fn test_hash_map() {
+    //hashmap data tidak di urutkan
+    let mut map: HashMap<String, String> = HashMap::new();
+
+    map.insert(String::from("name"), String::from("Khairul Aswad"));
+    map.insert(String::from("age"), String::from("20"));
+    map.insert(String::from("country"), String::from("Indonesia"));
+    map.insert(String::from("dountry"), String::from("Indonesia"));
+    map.insert(String::from("eountry"), String::from("Indonesia"));
+
+    println!("name: {}", map.get("name").unwrap());
+
+    println!("age: {}", map.get("age").unwrap());
+
+    for entry in map {
+        println!("{} : {}", entry.0, entry.1);
+    }
+}
+
+#[test]
+fn test_btree_map() {
+    //data di urutkan berdasarkan ascending key nya
+    let mut map: BTreeMap<String, String> = BTreeMap::new();
+
+    map.insert(String::from("name"), String::from("Khairul Aswad"));
+    map.insert(String::from("age"), String::from("20"));
+    map.insert(String::from("country"), String::from("Indonesia"));
+    map.insert(String::from("dountry"), String::from("Indonesia"));
+    map.insert(String::from("eountry"), String::from("Indonesia"));
+
+
+    //ubah data di map
+    match map.get_mut("country") {
+        Some(x) => *x = String::from("halodek"),
+        None => ()
+    }
+
+    println!("name: {}", map.get("name").unwrap());
+
+    println!("age: {}", map.get("age").unwrap());
+
+    //get data menggunakan get dan match mapping, bukab menggunakan unwrap
+    match map.get("country") {
+        None => println!("none"),
+        Some(x) => println!("country: {}", x)
+    }
+
+    for entry in map {
+        println!("{} : {}", entry.0, entry.1);
+    }
 }

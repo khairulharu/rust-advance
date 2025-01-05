@@ -2,7 +2,10 @@ fn main() {
     println!("Hello, world!");
 }
 
-trait GetValue<T> where T: PartialOrd {
+trait GetValue<T>
+where
+    T: PartialOrd,
+{
     fn get_value(&self) -> &T;
 }
 
@@ -21,23 +24,31 @@ impl<T> Point<T> {
     }
 }
 
-impl<T> GetValue<T> for Point<T> where T: PartialOrd {
+impl<T> GetValue<T> for Point<T>
+where
+    T: PartialOrd,
+{
     fn get_value(&self) -> &T {
         &self.x
     }
 }
 
-
 #[test]
 fn test_struct_generics_default_in_method_and_trait() {
     //default generics type
-    let age = Point{x: 80, y: 60};
+    let age = Point { x: 80, y: 60 };
 
     let my_name: Point<i32> = Point::<i32> { x: 20, y: 20 };
 
-    let my_geo_location: Point<f64> = Point::<f64> { x: 121.31313, y: 131.13131};
+    let my_geo_location: Point<f64> = Point::<f64> {
+        x: 121.31313,
+        y: 131.13131,
+    };
 
-    let name = Point{x: "khairul".to_string(), y: "aswad".to_string()};
+    let name = Point {
+        x: "khairul".to_string(),
+        y: "aswad".to_string(),
+    };
 
     println!("{} {}", age.get_x(), age.get_y());
 
@@ -65,19 +76,19 @@ fn test_enum_generics() {
     match value {
         Value::NONE => {
             println!("none");
-        },
+        }
         Value::VALUE(value) => {
             println!("value: {}", value);
-        },
+        }
     }
 
     match none_value {
         Value::NONE => {
             println!("none");
-        },
+        }
         Value::VALUE(value) => {
             println!("value: {}", value);
-        },
+        }
     }
 }
 
@@ -115,54 +126,68 @@ impl CanSayGoodBye for SimplePerson {
     }
 }
 
-struct Hi<T = SimpleMan> where T: CanSayHello {
+struct Hi<T = SimpleMan>
+where
+    T: CanSayHello,
+{
     value: T,
 }
 
-struct Bye<T = SimplePerson> where T: CanSayGoodBye {
+struct Bye<T = SimplePerson>
+where
+    T: CanSayGoodBye,
+{
     value: T,
 }
 
 #[test]
 fn test_generic_type_bound_and_generics_default_value() {
-
-    let default_value = Hi{
+    let default_value = Hi {
         value: SimpleMan {
-            name: "default value".to_string()
-        }
+            name: "default value".to_string(),
+        },
     };
 
     println!("{}", default_value.value.say_hello());
 
-    let default_valu2 = Bye{
+    let default_valu2 = Bye {
         value: SimplePerson {
-            name: "default value".to_string()
-        }
+            name: "default value".to_string(),
+        },
     };
 
     println!("{}", default_valu2.value.say_good_bye());
 
     let hi = Hi::<SimpleMan> {
         value: SimpleMan {
-            name: "khairul".to_string()
-        }
+            name: "khairul".to_string(),
+        },
     };
-    
+
     println!("{}", hi.value.say_hello());
-    
+
     let bye: Bye<SimplePerson> = Bye::<SimplePerson> {
-        value: SimplePerson { name: "simple person".to_string() },
+        value: SimplePerson {
+            name: "simple person".to_string(),
+        },
     };
 
     println!("{}", bye.value.say_good_bye());
 
-    let hi2: Hi<SimplePerson> = Hi::<SimplePerson>{ value: SimplePerson { name: "khairul".to_string() } };
+    let hi2: Hi<SimplePerson> = Hi::<SimplePerson> {
+        value: SimplePerson {
+            name: "khairul".to_string(),
+        },
+    };
 
     println!("hi2: {}", hi2.value.say_hello());
     println!("hi2: {}", hi2.value.say_good_bye());
 }
 
-fn min<T>(value1: T, value2: T) -> T where T: PartialOrd {
+fn min<T>(value1: T, value2: T) -> T
+where
+    T: PartialOrd,
+{
     if value1 < value2 {
         value1
     } else {
@@ -170,7 +195,10 @@ fn min<T>(value1: T, value2: T) -> T where T: PartialOrd {
     }
 }
 
-fn duplicated<T>(value1: T, value2: T) -> bool where T: PartialEq {
+fn duplicated<T>(value1: T, value2: T) -> bool
+where
+    T: PartialEq,
+{
     value1 == value2
 }
 
@@ -211,13 +239,13 @@ impl PartialEq for Apple {
 
 use std::cmp::Ordering;
 
-impl PartialOrd for  Apple {
+impl PartialOrd for Apple {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         self.quantity.partial_cmp(&other.quantity)
     }
 }
 
-use std::collections::{BTreeMap, HashMap, LinkedList, VecDeque};
+use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet, LinkedList, VecDeque};
 use std::ops::Add;
 
 impl Add for Apple {
@@ -225,15 +253,15 @@ impl Add for Apple {
 
     fn add(self, rhs: Self) -> Self::Output {
         Apple {
-            quantity: self.quantity + rhs.quantity
+            quantity: self.quantity + rhs.quantity,
         }
     }
 }
 
 #[test]
 fn test_operator_add() {
-    let apple1 = Apple{ quantity: 10 };
-    let apple2 = Apple{ quantity: 20 };
+    let apple1 = Apple { quantity: 10 };
+    let apple2 = Apple { quantity: 20 };
 
     let apple3 = apple1 + apple2;
 
@@ -242,8 +270,8 @@ fn test_operator_add() {
 
 #[test]
 fn feature() {
-    let apple1 = Apple{ quantity: 10 };
-    let apple2 = Apple{ quantity: 20 };
+    let apple1 = Apple { quantity: 10 };
+    let apple2 = Apple { quantity: 20 };
 
     println!("apple1 == apple2 : {}", apple1 == apple2);
     println!("apple1 > apple2 : {}", apple1 > apple2);
@@ -251,28 +279,27 @@ fn feature() {
     println!("apple1 != apple2 : {}", apple1 != apple2);
 }
 
-
 fn double(x: Option<i32>) -> Option<i32> {
     match x {
         None => None,
-        Some(x) => Some(x * 2)
+        Some(x) => Some(x * 2),
     }
 }
 
 #[test]
 fn test_option_value() {
-    let y  = double(None);
+    let y = double(None);
 
     match y {
         Some(v) => println!("{}", v),
-        None => println!("none value my bruda")
+        None => println!("none value my bruda"),
     }
 
     let x = double(Some(2));
 
     match x {
         Some(v) => println!("{}", v),
-        None => println!("none value bri bruda")
+        None => println!("none value bri bruda"),
     }
 
     let z: Option<i32> = double(Option::Some::<i32>(80));
@@ -305,24 +332,25 @@ use std::fmt::{Debug, Formatter, Result};
 impl Debug for Category {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         f.debug_struct("Category")
-        .field("id", &self.id)
-        .field("name", &self.name)
-        .finish()
+            .field("id", &self.id)
+            .field("name", &self.name)
+            .finish()
     }
 }
 
 #[test]
 fn test_format() {
-    let food_category: Category = Category { id: "12323".to_string(), name: "food".to_string() };
+    let food_category: Category = Category {
+        id: "12323".to_string(),
+        name: "food".to_string(),
+    };
 
     println!("{:?}", food_category);
 }
 
 #[test]
 fn test_closure() {
-    let sum: fn(i32, i32) -> i32 = |value1: i32, value2: i32| -> i32 {
-        value1 + value2
-    };
+    let sum: fn(i32, i32) -> i32 = |value1: i32, value2: i32| -> i32 { value1 + value2 };
 
     let result = sum(7, 7);
 
@@ -364,12 +392,12 @@ fn test_closure_scope() {
 }
 
 struct Counter {
-    counter: i32
+    counter: i32,
 }
 
 impl Counter {
     fn new(counter: i32) -> Counter {
-        Counter{ counter }
+        Counter { counter }
     }
 
     fn increment(&mut self) {
@@ -391,9 +419,8 @@ fn test_counter() {
 
 #[test]
 fn test_vector() {
-
     //array
-    let array_value  = ["khairul", "asawad", "tembak", "tembak"];
+    let array_value = ["khairul", "asawad", "tembak", "tembak"];
 
     for value in array_value {
         println!("{}", value);
@@ -413,7 +440,7 @@ fn test_vector() {
     for name in &names {
         println!("{}", name);
     }
-    
+
     println!("{:?}", names);
     println!("{}", names[0]);
     println!("{:?}", names[0])
@@ -475,7 +502,7 @@ fn test_hash_map() {
 
 #[test]
 fn test_btree_map() {
-    //data di urutkan berdasarkan ascending key nya
+    //data di urutkan berdasarkan key nya
     let mut map: BTreeMap<String, String> = BTreeMap::new();
 
     map.insert(String::from("name"), String::from("Khairul Aswad"));
@@ -484,11 +511,10 @@ fn test_btree_map() {
     map.insert(String::from("dountry"), String::from("Indonesia"));
     map.insert(String::from("eountry"), String::from("Indonesia"));
 
-
     //ubah data di map
     match map.get_mut("country") {
         Some(x) => *x = String::from("halodek"),
-        None => ()
+        None => (),
     }
 
     println!("name: {}", map.get("name").unwrap());
@@ -498,10 +524,78 @@ fn test_btree_map() {
     //get data menggunakan get dan match mapping, bukab menggunakan unwrap
     match map.get("country") {
         None => println!("none"),
-        Some(x) => println!("country: {}", x)
+        Some(x) => println!("country: {}", x),
     }
 
     for entry in map {
         println!("{} : {}", entry.0, entry.1);
+    }
+}
+
+#[test]
+fn test_hash_set() {
+    //data tidak diurutkan dan dijamin tidak akan duplikat
+    let mut set: HashSet<i32> = HashSet::new();
+
+    let inserted_set = set.insert(30);
+    if !inserted_set {
+        println!("failed insert new value to set");
+    }
+
+    let inserted_set = set.insert(30);
+    if !inserted_set {
+        println!("failed insert new value to set");
+    }
+
+    let inserted_set = set.insert(70);
+    if !inserted_set {
+        println!("failed insert new value to set");
+    }
+
+    let inserted_set = set.insert(10);
+    if !inserted_set {
+        println!("failed insert new value to set");
+    }
+    let inserted_set = set.insert(900);
+    if !inserted_set {
+        println!("failed insert new value to set");
+    }
+
+    for value in set {
+        println!("{}", value);
+    }
+}
+
+#[test]
+fn test_balance_tree_set() {
+    //data akan diurutkan berdasarkan value nya
+    let mut set: BTreeSet<i32> = BTreeSet::new();
+
+    let inserted_set = set.insert(30);
+    if !inserted_set {
+        println!("failed insert new value to set");
+    }
+
+    let inserted_set = set.insert(30);
+    if !inserted_set {
+        println!("failed insert new value to set");
+    }
+
+    let inserted_set = set.insert(70);
+    if !inserted_set {
+        println!("failed insert new value to set");
+    }
+
+    let inserted_set = set.insert(10);
+    if !inserted_set {
+        println!("failed insert new value to set");
+    }
+    let inserted_set = set.insert(900);
+    if !inserted_set {
+        println!("failed insert new value to set");
+    }
+
+    for value in set {
+        println!("{}", value);
     }
 }

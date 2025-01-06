@@ -328,6 +328,7 @@ struct Category {
 }
 
 use std::fmt::{Debug, Formatter, Result};
+use std::vec;
 
 impl Debug for Category {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
@@ -607,10 +608,24 @@ fn test_iterator() {
     let mut iterator = array.iter();
 
     while let Some(value) = iterator.next() {
-        println!("using manual: {}", value);
+        println!("{}", value);
     }
+}
 
-    for value in iterator {
-        println!("for loop on interface: {}", value);
-    }
+#[test]
+fn test_iterator_method() {
+    let vector: Vec<i32> = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
+    println!("Vector: {:?}", vector);
+
+    let sum: i32 = vector.iter().sum();
+    println!("sum of vector: {}", sum);
+
+    let count = vector.iter().count();
+    println!("count: {}", count);
+
+    let double: Vec<i32> = vector.iter().map(|x| x * 2).collect();
+    println!("double vector: {:?}", double);
+
+    let odd: Vec<&i32> = vector.iter().filter(|x: &&i32| *x % 2 != 0).collect();
+    println!("{:?}", odd);
 }

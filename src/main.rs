@@ -599,3 +599,18 @@ fn test_balance_tree_set() {
         println!("{}", value);
     }
 }
+
+#[test]
+fn test_iterator() {
+    let array: [i32; 5] = [1, 2, 3, 4, 5];
+
+    let mut iterator = array.iter();
+
+    while let Some(value) = iterator.next() {
+        println!("using manual: {}", value);
+    }
+
+    for value in iterator {
+        println!("for loop on interface: {}", value);
+    }
+}
